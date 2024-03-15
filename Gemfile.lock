@@ -1,11 +1,29 @@
 GEM
+  remote: https://rubygems.org/
   specs:
+    builder (3.2.4)
+    coderay (1.1.3)
+    gyoku (1.4.0)
+      builder (>= 2.1.2)
+      rexml (~> 3.0)
+    method_source (1.0.0)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    rexml (3.2.6)
+    wavefile (1.1.2)
 
 PLATFORMS
   arm64-darwin-21
   ruby
 
 DEPENDENCIES
+  gyoku (~> 1.0)
+  pry
+  wavefile
+
+RUBY VERSION
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.5.6
