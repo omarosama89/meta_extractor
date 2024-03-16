@@ -3,6 +3,15 @@ GEM
   specs:
     builder (3.2.4)
     coderay (1.1.3)
+    concurrent-ruby (1.2.3)
+    diff-lcs (1.5.1)
+    dry-core (1.0.1)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
+    dry-monads (1.6.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
     gyoku (1.4.0)
       builder (>= 2.1.2)
       rexml (~> 3.0)
@@ -11,15 +20,31 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     rexml (3.2.6)
+    rspec (3.13.0)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.0)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.1)
     wavefile (1.1.2)
+    zeitwerk (2.6.13)
 
 PLATFORMS
   arm64-darwin-21
   ruby
 
 DEPENDENCIES
+  dry-monads
   gyoku (~> 1.0)
   pry
+  rspec (~> 3.0)
   wavefile
 
 RUBY VERSION

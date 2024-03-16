@@ -1,3 +1,4 @@
 /output/**
-/DS_Store/**
-/.idea/**
+/DS_Store
+/.idea
+/spec/fixtures/dummy_output
