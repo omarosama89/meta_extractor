@@ -5,7 +5,7 @@ class WavFile
   }
 
   attr_reader :sample_format, :format, :channel_count, :sample_rate,
-              :byte_rate, :bit_depth, :bit_rate
+              :byte_rate, :bits_per_sample, :bit_rate
 
   def initialize(attributes ={})
     attributes.each do |key, val|
@@ -13,16 +13,17 @@ class WavFile
     end
 
     @format = FORMATS[sample_format] || DEFAULT_FORMAT
-    @bit_rate = sample_rate * channel_count * bit_depth
+
+    @bit_rate = sample_rate * channel_count * bits_per_sample
   end
 
   def to_hash
     {
       format: format,
       channel_count: channel_count,
-      sample_rate: sample_rate,
+      sampling_rate: sample_rate,
       byte_rate: byte_rate,
-      bit_depth: bit_depth,
+      bit_depth: bits_per_sample,
       bit_rate: bit_rate
     }
   end
