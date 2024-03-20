@@ -1,6 +1,5 @@
 require_relative '../models/wav_file'
 require_relative '../store_meta_data'
-require 'wavefile'
 require 'gyoku'
 
 RSpec.describe StoreMetaData do
