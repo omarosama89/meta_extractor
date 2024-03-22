@@ -1,8 +1,7 @@
 require_relative '../models/wav_file'
 require_relative '../get_meta_data_from_directory'
-require 'wavefile'
+require_relative '../file_reader'
 require 'gyoku'
-require 'pry'
 RSpec.describe GetMetaDataFromDirectory do
   subject do
     described_class.new(directory: directory, ext: ext )
@@ -11,10 +10,8 @@ RSpec.describe GetMetaDataFromDirectory do
   before do
     allow(Dir).to receive(:glob).with(File.join(directory, '**', "*.#{ext}")).and_return(files)
     files.each do |file|
-      allow(WaveFile::Reader)
-        .to(receive(:new).with(file).and_return(
-          instance_double('WaveFile::Reader', format: double(wav_file_reader_response))
-        ))
+      allow(FileReader).to receive(:new).with(filepath: file).and_return(instance_double('FileReader', call: file_reader_response))
+      allow(WavFile).to receive(:new).with(file_reader_response).and_return(wav_file_attributes)
     end
     allow(Gyoku).to receive(:xml).with({track: wav_file_attributes}, pretty_print: true).and_return(dummy_xml)
   end
@@ -34,7 +31,7 @@ RSpec.describe GetMetaDataFromDirectory do
   let(:bits_per_sample) { 16 }
   let(:bit_rate) { 1411200 }
 
-  let(:wav_file_reader_response) do
+  let(:file_reader_response) do
     {
       sample_format: sample_format,
       channels: channels,
