@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "3.1.2"
 
+gem 'wavefile'
+
 gem 'dry-monads'
 
 gem 'gyoku', '~> 1.0'

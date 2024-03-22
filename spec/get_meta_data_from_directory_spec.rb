@@ -1,7 +1,8 @@
 require_relative '../models/wav_file'
 require_relative '../get_meta_data_from_directory'
+require 'wavefile'
 require 'gyoku'
-
+require 'pry'
 RSpec.describe GetMetaDataFromDirectory do
   subject do
     described_class.new(directory: directory, ext: ext )
@@ -10,15 +11,18 @@ RSpec.describe GetMetaDataFromDirectory do
   before do
     allow(Dir).to receive(:glob).with(File.join(directory, '**', "*.#{ext}")).and_return(files)
     files.each do |file|
-      allow(FileReader).to receive(:new).with(filepath: file).and_return(instance_double('FileReader', call: file_reader_response))
-      allow(WavFile).to receive(:new).with(file_reader_response).and_return(wav_file_attributes)
+      allow(WaveFile::Reader)
+        .to(receive(:new).with(file).and_return(
+          instance_double('WaveFile::Reader', format: double(wav_file_reader_response))
+        ))
     end
     allow(Gyoku).to receive(:xml).with({track: wav_file_attributes}, pretty_print: true).and_return(dummy_xml)
   end
 
   let(:dummy_xml) { "<track>\n<format>Compressed</format>\n</track>" }
-  let(:file) { 'file' }
-  let(:files) { ["i/am/#{file}.wav"] }
+  let(:first_file) { "first_file" }
+  let(:second_file) { "second_file" }
+  let(:files) { ["i/am/#{first_file}.wav", "i/am/#{second_file}.wav"] }
   let(:directory) { 'spec/fixtures/dummy_input_files' }
   let(:ext) { 'wav' }
 
@@ -30,7 +34,7 @@ RSpec.describe GetMetaDataFromDirectory do
   let(:bits_per_sample) { 16 }
   let(:bit_rate) { 1411200 }
 
-  let(:file_reader_response) do
+  let(:wav_file_reader_response) do
     {
       sample_format: sample_format,
       channels: channels,
@@ -63,7 +67,8 @@ RSpec.describe GetMetaDataFromDirectory do
   context "when directory exists" do
     let(:result) do
       {
-        file => dummy_xml
+        first_file => dummy_xml,
+        second_file => dummy_xml
       }
     end
 
