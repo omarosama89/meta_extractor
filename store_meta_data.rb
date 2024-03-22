@@ -1,4 +1,3 @@
-require 'wavefile'
 require 'gyoku'
 require 'dry/monads'
 require_relative './models/wav_file'
