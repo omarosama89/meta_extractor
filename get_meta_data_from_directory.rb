@@ -1,7 +1,8 @@
-require 'wavefile'
 require 'gyoku'
 require 'dry/monads'
+require_relative './file_reader'
 require_relative './models/wav_file'
+
 class GetMetaDataFromDirectory
   include Dry::Monads[:result]
 
@@ -20,15 +21,9 @@ class GetMetaDataFromDirectory
     files = Dir.glob(File.join(directory, '**', "*.#{ext}"))
 
     xml_filepaths = files.each_with_object({}) do |filepath, memo|
-      wfr = WaveFile::Reader.new(filepath)
+      file_reader = FileReader.new(filepath: filepath)
 
-      wav_file = WavFile.new(
-        sample_format: wfr.format.sample_format,
-        channel_count: wfr.format.channels,
-        sample_rate: wfr.format.sample_rate,
-        byte_rate: wfr.format.byte_rate,
-        bits_per_sample: wfr.format.bits_per_sample
-      )
+      wav_file = WavFile.new(file_reader.call)
 
       xml = Gyoku.xml({track: wav_file.to_hash}, pretty_print: true)
 
